@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import math
+
 test_df = pd.read_csv("./car/test.csv", header=None)
 train_df = pd.read_csv("./car/train.csv", header=None)
 
@@ -28,20 +29,13 @@ def gini_gain(S,Label_col_index, attrib_idx):
 # calculates the majority error gain
 def ME_gain(S,Label_col_index, attrib_idx):  
     freq = S.groupby(Label_col_index)[Label_col_index].count()
-#     print(freq)
     
     ME_S = (freq.sum()- freq.max())/ S.shape[0]
-#     print("ME(S)=" + str(ME_S))  
 
-#     Expected_ME_Sv = S.groupby([attrib_idx,Label_col_index],as_index=False)[Label_col_index].count()\
-#     .groupby(attrib_idx).apply(lambda x: (x.sum()/S.shape[0])*(x.sum() - x.max()))\
-#     .sum()
-    
     Expected_ME_Sv = S.groupby([attrib_idx,Label_col_index],as_index=False)[Label_col_index].count()\
     .groupby(attrib_idx).apply(lambda x: (x.sum()/S.shape[0])*(1 - (x.max()/x.sum())))\
     .sum()
     
-#     print("Expected_ME_Sv=",Expected_ME_Sv[Label_col_index])
     return max(0,(ME_S - Expected_ME_Sv[Label_col_index]))
 
 # returns the column index of the best splitter attribute
@@ -49,24 +43,19 @@ def ME_gain(S,Label_col_index, attrib_idx):
 # Attributes: list of attributes to be evaluated
 # splitter_algorithm: the splitter algorithm, can be one of the 3 values ("ME":Majority Error, "GI":Gini Index, "EN":Entropy)
 def Best_spliter_attribute(S, Attributes, Label_col_index, splitter_algorithm):
-#     print("splitter algorithm:"  + splitter_algorithm)
     if len(Attributes) < 2:
         return Attributes[0]
     best_gain = 0
     best_attribute = Attributes[0]
     for v in Attributes:
         if v != Label_col_index:
-#             print("finding gain for attribute with col-idx=",str(v))
             gain_v = 0
             if splitter_algorithm == "EN":
                 gain_v = entropy_gain(S,Label_col_index, v)
-#                 print("entropy_gain:",gain_v)
             elif splitter_algorithm == "ME":
                 gain_v = ME_gain(S,Label_col_index,v)
-#                 print("ME_gain:",gain_v)
             elif splitter_algorithm == "GI":
                 gain_v = gini_gain(S,Label_col_index,v)
-#                 print("gini_gain:",gain_v)
                 
             else:
                 assert False, "Unknown splitter_algorithm:" + splitter_algorithm + "!!!"
@@ -76,23 +65,44 @@ def Best_spliter_attribute(S, Attributes, Label_col_index, splitter_algorithm):
     print("best attrib is:",best_attribute)
     return best_attribute
 
-atrib_name = {0:"buying", 1:"maint",2:"doors",3:"persons",4:"lug_boot",5:"safety"}
+attrib_name = {0:"buying", 1:"maint",2:"doors",3:"persons",4:"lug_boot",5:"safety"}
+label_values = ["unacc", "acc", "good", "vgood"]
+
+attrib_values = { "buying":   ["vhigh", "high", "med", "low"],\
+                 "maint":    ["vhigh", "high", "med", "low"],\
+                 "doors":    ["2", "3", "4", "5more"],\
+                 "persons":  ["2", "4", "more"],\
+                 "lug_boot": ["small", "med", "big"],\
+                 "safety":   ["low", "med", "high"]
+                }
 
 def predict(root, entry):
     example = {} 
     for i in range(6):
-        example[atrib_name[i]] = entry[i]
-    return predic_helper(root, example)
+        example[attrib_name[i]] = entry[i]
+    return predict_helper(root, example)
 
-def predic_helper(root, example):
+def predict_helper(root, example):
     root_attrib_name = root[0]
     example_attrib_val = example[root_attrib_name]
     if isinstance(root[1][example_attrib_val], list): # if attrib-node
-        return predic_helper(root[1][example_attrib_val], example)
+        return predict_helper(root[1][example_attrib_val], example)
     else: # if leaf node
         return root[1][example_attrib_val]
     
+def predict_dataset(S, root, Label_col_index):
+    all = 0
+    correct = 0
+    for idx, row in S.iterrows():
+        all += 1
+        gold_label = row[Label_col_index]
+        predicted_label = predict(root, row)
+        if predicted_label == gold_label:
+            correct +=1
+    return correct / all # accuracy
 
+        
+        
 # ##############              ID3 implementation:
 # Input:
 # S: the set of Examples
@@ -116,10 +126,10 @@ def ID3(S, Attributes, Label_col_index, max_tree_level, splitter_algorithm):
                                                             # value = an "attribute node" list;  or a string label for leaf nodes
         # 2. A = attribute in Attributes that best splits S
         A = Best_spliter_attribute(S, Attributes, Label_col_index, splitter_algorithm)
-        Root.append(atrib_name[A]) # 1st element = string attribute name
+        Root.append(attrib_name[A]) # 1st element = string attribute name
         Root.append({})            # 2nd element = dictionary children;
         # 3. for each possible value v of that A can take:
-        for v in S[A].unique(): # TODO: S[A].unique() might not include all possible value 
+        for v in attrib_values[attrib_name[A]]:
             # 1. Add a new tree branch corresponding to A=v
             # 2. Let Sv be the subset of examples in S with A=v
             Sv = S.loc[S[A] == v]
@@ -133,41 +143,34 @@ def ID3(S, Attributes, Label_col_index, max_tree_level, splitter_algorithm):
         return Root
         
 # ##############              main
+print("Training ...")
+print("gini-tree")
 print("#######")
 Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
 tree_gini = ID3(test_df, Attributes,6, 6, "GI")
 print(tree_gini)
 
-# print("#######")
-# Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-# tree_gini = ID3(test_df, Attributes,6, 5, "GI")
-# print(tree_gini)
+print("\nIG-tree")
+print("#######")
+Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
+tree_entopy = ID3(test_df, Attributes,6, 10, "EN")
+print(tree_entopy)
 
-# print("#######")
-# Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-# tree_gini = ID3(test_df, Attributes,6, 4, "GI")
-# print(tree_gini)
-
-# print("#######")
-# Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-# tree_gini = ID3(test_df, Attributes,6, 3, "GI")
-# print(tree_gini)
-
-# print("#######")
-# Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-# tree_gini = ID3(test_df, Attributes,6, 2, "GI")
-# print(tree_gini)
-
-# print("#######")
-# Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-# tree_gini = ID3(test_df, Attributes,6, 1, "GI")
-# print(tree_gini)
-
-# print("#######")
-# Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-# tree_entopy = ID3(test_df, Attributes,6, 10, "EN")
-# print(tree_entopy)
+print("\nME-tree")
 print("#######")
 Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
 tree_ME = ID3(test_df, Attributes,6, 10, "ME")
 print(tree_ME)
+
+print("\n\nPrediction...")
+for hight in range(1,7):
+    print("tree hight:", hight)
+    for app in ["EN", "GI", "ME"]:
+        print("gain approach:", app)
+        Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
+        tree = ID3(test_df, Attributes,6, hight, app)
+#         print("tree:")
+#         print(tree)
+        print("train accuracy:",predict_dataset(train_df, tree,6))
+        print("test accuracy: ", predict_dataset(test_df, tree,6))
+        print("###############")
