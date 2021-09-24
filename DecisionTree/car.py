@@ -143,34 +143,35 @@ def ID3(S, Attributes, Label_col_index, max_tree_level, splitter_algorithm):
         return Root
         
 # ##############              main
-print("Training ...")
+print("Some  Training examples ...")
 print("gini-tree")
 print("#######")
 Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-tree_gini = ID3(test_df, Attributes,6, 6, "GI")
+tree_gini = ID3(train_df, Attributes,6, 6, "GI")
 print(tree_gini)
 
 print("\nIG-tree")
 print("#######")
 Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-tree_entopy = ID3(test_df, Attributes,6, 10, "EN")
+tree_entopy = ID3(train_df, Attributes,6, 10, "EN")
 print(tree_entopy)
 
 print("\nME-tree")
 print("#######")
 Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-tree_ME = ID3(test_df, Attributes,6, 10, "ME")
+tree_ME = ID3(train_df, Attributes,6, 10, "ME")
 print(tree_ME)
 
-print("\n\nPrediction...")
+print("#######################")
 for hight in range(1,7):
     print("tree hight:", hight)
     for app in ["EN", "GI", "ME"]:
         print("gain approach:", app)
+        print("Training ...")
         Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
-        tree = ID3(test_df, Attributes,6, hight, app)
-#         print("tree:")
-#         print(tree)
+        tree = ID3(train_df, Attributes,6, hight, app)
+        
+        print("prediction ...")
         print("train accuracy:",predict_dataset(train_df, tree,6))
         print("test accuracy: ", predict_dataset(test_df, tree,6))
         print("###############")
