@@ -143,7 +143,7 @@ def ID3(S, Attributes, Label_col_index, max_tree_level, splitter_algorithm):
         return Root
         
 # ##############              main
-print("Some  Training examples ...")
+print("\n\n######### Some Training/prediction examples ########")
 print("gini-tree")
 print("#######")
 Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in Attributes set
@@ -162,7 +162,8 @@ Attributes = [0,1,2,3,4,5] # initially put all attributes except the label in At
 tree_ME = ID3(train_df, Attributes,6, 10, "ME")
 print(tree_ME)
 
-print("#######################")
+print("\n\n########## experiment #############")
+print("this may take few minutes dependeng to you machine (for me it took less than 5 mins to complete)")
 for hight in range(1,7):
     print("tree hight:", hight)
     for app in ["EN", "GI", "ME"]:
