@@ -1,0 +1,11 @@
+0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
+1,admin.,married,secondary,no,0,yes,yes,unknown,0,jun,1,1,0,0,unknown,-1,0.1
+1,management,married,secondary,no,1,no,no,unknown,1,jun,0,0,0,0,unknown,-1,0.1
+1,admin.,married,tertiary,no,1,no,no,cellular,1,jul,1,0,0,0,unknown,-1,0.1
+0,technician,single,secondary,no,0,yes,yes,unknown,0,may,0,0,0,0,unknown,-1,0.1
+0,services,married,secondary,no,0,yes,no,cellular,1,jul,1,1,0,0,unknown,1,0.1
+1,blue-collar,divorced,secondary,no,1,yes,no,unknown,1,may,0,1,0,0,unknown,-1,0.1
+0,management,single,tertiary,no,1,no,no,cellular,0,aug,0,0,0,0,unknown,-1,0.1
+0,blue-collar,married,secondary,no,0,yes,no,cellular,1,jul,1,0,0,0,unknown,1,0.1
+0,admin.,married,secondary,no,0,no,no,cellular,0,aug,0,0,1,1,success,1,0.1
+1,retired,married,tertiary,no,1,no,no,unknown,0,may,1,0,0,0,unknown,-1,0.1
