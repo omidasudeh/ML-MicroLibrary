@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import math
 import copy as cp
+import sys
 test_df = pd.read_csv("./bank/test.csv", header=None)
 m_test = len(test_df)
 
@@ -233,7 +234,7 @@ def AdaBoost_train(S, Label_col_index, T):
 #         print(S[Label_col_index+1])
         Hyp = ID3(S, Attributes, Label_col_index, 1, "EN")
 #         print(Hyp)
-#         print("stump_",t ," test accuracy:",predict_dataset(test_df_processed, Hyp,16))
+        print("adaboost stump ",t ," train_accuracy:",predict_dataset(train_df_processed, Hyp,16)," test_accuracy:",predict_dataset(test_df_processed, Hyp,16))
         h.append(Hyp)
         # compute the Et
         Et = 0
@@ -301,12 +302,12 @@ Dtest  = [1/m_test]  * m_test
 test_df_processed[17] = Dtest
 # ##############              test the AdaBoost
 print("\n\n#############################")
-h, alpha = AdaBoost_train(train_df_processed, 16, 15)
+iters = int(sys.argv[1])
+h, alpha = AdaBoost_train(train_df_processed, 16, iters)
 print("#######")
-print("train accuracy:",AdaBoost_predict_dataset(train_df_processed,h,alpha,16))
-print("test accuracy:",AdaBoost_predict_dataset(test_df_processed,h,alpha,16))
+print("adaboost iters:",iters, "train_accuracy:",AdaBoost_predict_dataset(train_df_processed,h,alpha,16), "test_accuracy:",AdaBoost_predict_dataset(test_df_processed,h,alpha,16))
 
-print("t\troot node:\talpha")
+print("t\troot node:\talpha\n")
 print("================================")
 for i in  range(len(h)):
     print(i, "\t", h[i][0], "\t", alpha[i])
