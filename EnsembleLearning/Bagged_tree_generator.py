@@ -140,13 +140,13 @@ def predict_dataset(S, root, Label_col_index):
 def ID3(S, Attributes, Label_col_index, max_tree_level, splitter_algorithm):
     if(max_tree_level == 0):                                                            # if at max level
 #         print("max_tree_level reached")
-        return select_label_with_max_weight_sum(S, Label_col_index)
+        return S[Label_col_index].mode()[0]
     elif S[Label_col_index].nunique() == 1:                                             # if all examples have same label:   
 #         print("Label_col_index unique")
-        return select_label_with_max_weight_sum(S, Label_col_index)
+        return S[Label_col_index].mode()[0]
     elif len(Attributes) == 0:                                                          # if Attributes empty
 #         print("Attributes")
-        return select_label_with_max_weight_sum(S, Label_col_index)
+        return S[Label_col_index].mode()[0]
     else:
         # 1. Create a Root node for tree
         Root = [] # each "attribute node" is a list s.t. 
@@ -171,7 +171,7 @@ def ID3(S, Attributes, Label_col_index, max_tree_level, splitter_algorithm):
             Sv = S.loc[S[A] == v]
             if len(Sv) == 0: # if Sv is empty
 #                 print("Sv is empty")
-                Root[1][v] = select_label_with_max_weight_sum(S, Label_col_index) # string label
+                Root[1][v] = S[Label_col_index].mode()[0] # string label
             else:
                 Attrib_minus_A = Attributes
                 if len(Attrib_minus_A) > 0 and A in Attrib_minus_A:

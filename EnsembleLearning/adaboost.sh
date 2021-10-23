@@ -4,8 +4,8 @@
 #SBATCH --time=01:30:00
 #SBATCH -n 1
 #SBATCH --ntasks-per-node=1
-#SBATCH --error=job_log/job.%J.err
-#SBATCH --output=job_log/job.%J.out
+#SBATCH --error=adaboost_job_log/job.%J.err
+#SBATCH --output=adaboost_job_log/job.%J.out
 module load python3
 module load pandas
 jbID=$1

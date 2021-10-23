@@ -185,7 +185,7 @@ def ID3(S, Attributes, Label_col_index, max_tree_level, splitter_algorithm):
 # ##############              test the decision stump
 print("Some  Training examples ...")
 Attributes = [0,1,2,3,4,5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] # initially put all attributes except the label in Attributes set
-tree_infoGain = ID3(train_df_processed, Attributes,16,1, "EN")  # note the max_height is set to 2 to construct decision stumps
+tree_infoGain = ID3(train_df_processed, Attributes,16,1, "EN")  # note the max_height is set to 1 to construct decision stumps
 print(tree_infoGain)
 
 print("#######")
