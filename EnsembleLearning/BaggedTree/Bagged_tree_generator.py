@@ -5,10 +5,10 @@ import numpy as np
 import math
 import copy as cp
 import sys
-test_df = pd.read_csv("./bank/test.csv", header=None)
+test_df = pd.read_csv("../data/bank/test.csv", header=None)
 m_test = len(test_df)
 
-train_df = pd.read_csv("./bank/train.csv", header=None)
+train_df = pd.read_csv("../data/bank/train.csv", header=None)
 m_train = len(train_df)
 
 # # preprocess the data

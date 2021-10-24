@@ -3,10 +3,10 @@ import numpy as np
 import math
 import copy as cp
 import sys
-test_df = pd.read_csv("./bank/test.csv", header=None)
+test_df = pd.read_csv("../data/bank/test.csv", header=None)
 m_test = len(test_df)
 
-train_df = pd.read_csv("./bank/train.csv", header=None)
+train_df = pd.read_csv("../data/bank/train.csv", header=None)
 m_train = len(train_df)
 
 # train_df = pd.read_csv("./bank/sample1.csv", header=None)
@@ -307,7 +307,7 @@ h, alpha = AdaBoost_train(train_df_processed, 16, iters)
 print("#######")
 print("adaboost iters:",iters, "train_accuracy:",AdaBoost_predict_dataset(train_df_processed,h,alpha,16), "test_accuracy:",AdaBoost_predict_dataset(test_df_processed,h,alpha,16))
 
-print("t\troot node:\talpha\n")
+print("\nt\troot node:\talpha")
 print("================================")
 for i in  range(len(h)):
     print(i, "\t", h[i][0], "\t", alpha[i])
