@@ -218,7 +218,9 @@ for it in range(iters):
     # # generate a bootstrap tree 
     train_df_sample = train_df_processed.sample(m_train, replace=True)
     tree = RandTreeLearn(train_df_sample, Attributes, k)
-    Trees.append(tree)
+    train_accuracy, hx_train = predict_dataset(train_df_processed, tree, 16)
+    test_accuracy, hx_test = predict_dataset(test_df_processed, tree, 16)
+    Trees.append([hx_train, hx_test])
 
 print("prediction...")
 for number_of_trees in range(1, 1+ len(Trees)):
@@ -226,9 +228,7 @@ for number_of_trees in range(1, 1+ len(Trees)):
     train_prediction_frequency = pd.Series([0]*m_train)
     test_prediction_frequency  = pd.Series([0]*m_test)
     for t in range ( number_of_trees):
-        T = Trees[t]
-        train_accuracy, hx_train = predict_dataset(train_df_processed, T, 16)
-        test_accuracy, hx_test = predict_dataset(test_df_processed, T, 16)
+        hx_train, hx_test = Trees[t]
         train_prediction_frequency = train_prediction_frequency + pd.Series(hx_train)
         test_prediction_frequency = test_prediction_frequency + pd.Series(hx_test)
 
