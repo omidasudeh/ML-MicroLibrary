@@ -142,79 +142,78 @@ def Gaus_SVM(x, y, C, gamma):
 
 # # Main
 
-# print("############################  Primal SVM")
-# print("==== schedule = γt = γ0/(1+(γ0/a)*t) ====")
-# C = 100/873
-# w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C)
-# print("C:",C)
-# print('Primal SVM train Error:', get_error(train_x, train_y,w))
-# print('Primal SVM test Error: ', get_error(test_x, test_y,w))
-# print("====")
+print("############################  Primal SVM")
+print("==== schedule = γt = γ0/(1+(γ0/a)*t) ====")
+C = 100/873
+w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C)
+print("C:",C)
+print('Primal SVM train Error:', get_error(train_x, train_y,w))
+print('Primal SVM test Error: ', get_error(test_x, test_y,w))
+print("====")
 
-# C = 500/873
-# w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C)
-# print("C:",C)
-# print('Primal SVM train Error:', get_error(train_x, train_y,w))
-# print('Primal SVM test Error: ', get_error(test_x, test_y,w))
-# print("====")
+C = 500/873
+w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C)
+print("C:",C)
+print('Primal SVM train Error:', get_error(train_x, train_y,w))
+print('Primal SVM test Error: ', get_error(test_x, test_y,w))
+print("====")
 
-# C = 700/873
-# w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C)
-# print("C:",C)
-# print('Primal SVM train Error:', get_error(train_x, train_y,w))
-# print('Primal SVM test Error: ', get_error(test_x, test_y,w))
-# print("====")
+C = 700/873
+w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C)
+print("C:",C)
+print('Primal SVM train Error:', get_error(train_x, train_y,w))
+print('Primal SVM test Error: ', get_error(test_x, test_y,w))
+print("====")
 
-# print("\n==== schedule = γt = γ0/(1+t) ====")
-# C = 100/873
-# w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C,1)
-# print("C:",C)
-# print('Primal SVM train Error:', get_error(train_x, train_y,w))
-# print('Primal SVM test Error: ', get_error(test_x, test_y,w))
-# print("====")
+print("\n==== schedule = γt = γ0/(1+t) ====")
+C = 100/873
+w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C,1)
+print("C:",C)
+print('Primal SVM train Error:', get_error(train_x, train_y,w))
+print('Primal SVM test Error: ', get_error(test_x, test_y,w))
+print("====")
 
-# C = 500/873
-# w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C,1)
-# print("C:",C)
-# print('Primal SVM train Error:', get_error(train_x, train_y,w))
-# print('Primal SVM test Error: ', get_error(test_x, test_y,w))
-# print("====")
+C = 500/873
+w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C,1)
+print("C:",C)
+print('Primal SVM train Error:', get_error(train_x, train_y,w))
+print('Primal SVM test Error: ', get_error(test_x, test_y,w))
+print("====")
 
-# C = 700/873
-# w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C,1)
-# print("C:",C)
-# print('Primal SVM train Error:', get_error(train_x, train_y,w))
-# print('Primal SVM test Error: ', get_error(test_x, test_y,w))
-# print("====")
+C = 700/873
+w = Primal_SVM(train_x, train_y, 0.5, 0.1, 100, C,1)
+print("C:",C)
+print('Primal SVM train Error:', get_error(train_x, train_y,w))
+print('Primal SVM test Error: ', get_error(test_x, test_y,w))
+print("====")
 
-# print("############################  Dual SVM")
+print("############################  Dual SVM")
 
-# C = 100/873
-# print("C:",C)
+C = 100/873
+print("C:",C)
 trainX = train_x[:,[x for x in range(train_cols - 1)]]
 testX  = test_x [:,[x for x in range(test_cols  - 1)]]
-# w = Dual_SVM( trainX ,train_y, C)
-# print('Dual SVM train Error:', get_error(train_x, train_y,w))
-# print('Dual SVM test Error:', get_error(test_x, test_y,w))
-# print("====")
+w = Dual_SVM( trainX ,train_y, C)
+print('Dual SVM train Error:', get_error(train_x, train_y,w))
+print('Dual SVM test Error:', get_error(test_x, test_y,w))
+print("====")
 
-# C = 500/873
-# print("C:",C)
-# w = Dual_SVM( trainX ,train_y, C)
-# print('Dual SVM train Error:', get_error(train_x, train_y,w))
-# print('Dual SVM test Error:', get_error(test_x, test_y,w))
-# print("====")
+C = 500/873
+print("C:",C)
+w = Dual_SVM( trainX ,train_y, C)
+print('Dual SVM train Error:', get_error(train_x, train_y,w))
+print('Dual SVM test Error:', get_error(test_x, test_y,w))
+print("====")
 
-# C = 700/873
-# print("C:",C)
-# w = Dual_SVM( trainX ,train_y, C)
-# print('Dual SVM train Error:', get_error(train_x, train_y,w))
-# print('Dual SVM test Error:', get_error(test_x, test_y,w))
-# print("====")
+C = 700/873
+print("C:",C)
+w = Dual_SVM( trainX ,train_y, C)
+print('Dual SVM train Error:', get_error(train_x, train_y,w))
+print('Dual SVM test Error:', get_error(test_x, test_y,w))
+print("====")
 
 print("############################ Gaussian SVM")
-# for c in [100/873, 500/873, 700/873]:
-for c in [500/873, 700/873]:
+for c in [100/873, 500/873, 700/873]:
     for gamma in [.1,.5,1,5,100]:
         alpha = Gaus_SVM(trainX ,train_y, c, gamma)
         print("Setting: c=", c, "γ=", gamma)
